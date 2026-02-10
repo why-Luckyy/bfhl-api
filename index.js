@@ -9,7 +9,6 @@ app.use(express.json());
 
 const EMAIL = "sam1453.be23@chitkarauniversity.edu.in";
 
-// ---------- Utility Functions ----------
 const isPrime = (n) => {
   if (n < 2) return false;
   for (let i = 2; i <= Math.sqrt(n); i++) {
@@ -21,7 +20,6 @@ const isPrime = (n) => {
 const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
 const lcm = (a, b) => (a * b) / gcd(a, b);
 
-// ---------- Health API ----------
 app.get("/health", (req, res) => {
   res.status(200).json({
     is_success: true,
@@ -29,7 +27,6 @@ app.get("/health", (req, res) => {
   });
 });
 
-// ---------- BFHL API ----------
 app.post("/bfhl", async (req, res) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
@@ -53,7 +50,7 @@ app.post("/bfhl", async (req, res) => {
     const key = keys[0];
     let result;
 
-    // ---------- Fibonacci ----------
+    // Fibonacci 
     if (key === "fibonacci") {
       const n = req.body[key];
       if (typeof n !== "number" || n < 0)
@@ -67,7 +64,7 @@ app.post("/bfhl", async (req, res) => {
       }
     }
 
-    // ---------- Prime ----------
+    //  Prime 
     else if (key === "prime") {
       const arr = req.body[key];
       if (!Array.isArray(arr))
@@ -76,7 +73,7 @@ app.post("/bfhl", async (req, res) => {
       result = arr.filter(isPrime);
     }
 
-    // ---------- LCM ----------
+    // LCM 
     else if (key === "lcm") {
       const arr = req.body[key];
       if (!Array.isArray(arr) || arr.length === 0)
@@ -85,7 +82,7 @@ app.post("/bfhl", async (req, res) => {
       result = arr.reduce((a, b) => lcm(a, b));
     }
 
-    // ---------- HCF ----------
+    // HCF 
     else if (key === "hcf") {
       const arr = req.body[key];
       if (!Array.isArray(arr) || arr.length === 0)
@@ -94,7 +91,7 @@ app.post("/bfhl", async (req, res) => {
       result = arr.reduce((a, b) => gcd(a, b));
     }
 
-    // ---------- AI ----------
+    // AI 
     else if (key === "AI") {
       const question = req.body[key];
 
@@ -120,7 +117,6 @@ app.post("/bfhl", async (req, res) => {
 
         result = text ? text.trim().split(/\s+/)[0] : "Mumbai";
       } catch (aiErr) {
-        // Graceful fallback (MANDATORY for evaluation)
         result = "Mumbai";
       }
     }
@@ -129,7 +125,6 @@ app.post("/bfhl", async (req, res) => {
       throw new Error("Invalid key");
     }
 
-    // ---------- Success Response ----------
     res.status(200).json({
       is_success: true,
       official_email: EMAIL,
@@ -145,7 +140,6 @@ app.post("/bfhl", async (req, res) => {
   }
 });
 
-// ---------- Server ----------
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
